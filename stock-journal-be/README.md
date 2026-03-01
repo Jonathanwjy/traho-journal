@@ -1,59 +1,513 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Base URL: http://localhost:8000
 
-## About Laravel
+## Auth API
+### Register User API
+- Endpoint: POST /api/v1/register
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Request Body:
+```json
+{
+    "email" : "john@gmail.com",
+    "password" : "12345678",
+}
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Response Body Success:
+```json
+{
+    "user": {
+        "email": "john@gmail.com",
+        "updated_at": "2026-03-01T05:54:22.000000Z",
+        "created_at": "2026-03-01T05:54:22.000000Z",
+        "id": 1
+    },
+    "token": "token"
+}
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Response Body Error:
+```json
+{
+  "status": "error",
+  "message": "Validation failed",
+  "errors": {
+    "email": [
+      "The email has already been taken."
+    ]
+  }
+}
+```
+---
 
-## Learning Laravel
+### Login User API
+- Endpoint: POST /api/v1/login
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Request Body:
+```json
+{
+    "email" : "john@gmail.com",
+    "password" : "12345678",
+}
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Reponse Body Success:
+```json
+{
+    "token": "token"
+}
+```
+Response Body Error:
+```json
+{
+    "error": "invalid credentials"
+}
+```
+---
 
-## Laravel Sponsors
+### Logout User API
+- Endpoint: POST /api/v1/logout
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Reponse Body Success:
+```json
+{
+    "success": true,
+    "message": "Logout berhasil"
+}
+```
 
-### Premium Partners
+Response Body Error:
+```json
+{
+    "error": "Token not valid"
+}
+```
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+#### Change Password API
+- Endpoint: POST api/v1/change-password
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
 
-## Contributing
+Request Body:
+```json
+{
+    "old_password": "12345678",
+    "new_password": "11111111"
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Password berhasil diubah."
+}
+```
 
-## Code of Conduct
+Reponse Body Error:
+```json
+{
+    "success": false,
+    "message": "Password lama tidak sesuai"
+}
+```
+<br>
+<br>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Stocks API
+### Store Stocks API
+- Endpoint: POST /api/v1/stocks/store
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
 
-## Security Vulnerabilities
+Request Body:
+```json
+{
+  "name": "BBCA",
+  "buy_price": 6000,
+  "lot_size": 1,
+  "buy_date": "2025-01-20",
+  "action": "long",
+  "conviction": "Harga Bottom"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Stock created successfully",
+    "data": {
+        "user_id": 1,
+        "name": "BBCA",
+        "buy_price": 6000,
+        "average_price": 6000,
+        "lot_size": 1,
+        "buy_date": "2025-01-20",
+        "action": "long",
+        "conviction": "Harga Bottom",
+        "balance": 600000,
+        "updated_at": "2026-03-01T06:52:13.000000Z",
+        "created_at": "2026-03-01T06:52:13.000000Z",
+        "id": 1
+    }
+}
+```
 
-## License
+Response Body Error:
+```json
+{
+    "success": false,
+    "errors": {
+        "buy_price": [
+            "The buy price field is required."
+        ]
+    }
+}
+```
+---
+### Get Stocks List API
+- Endpoint: GET /api/v1/stocks/index
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Response Body Success:
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "name": "BBCA",
+            "buy_price": 9250,
+            "average_price": 9300,
+            "lot_size": 2,
+            "buy_date": "2025-01-20",
+            "action": "long",
+            "conviction": "Sangat Gacor",
+            "created_at": "2026-01-29T12:06:21.000000Z",
+            "updated_at": "2026-01-29T13:00:13.000000Z",
+            "status": "close",
+            "balance": null
+        },
+    ]
+}
+```
+
+Response Body Error:
+```json
+{
+    "error": "Token not valid"
+}
+```
+---
+
+### Update Stock API
+- Endpoint: PATCH /api/v1/stocks/{id}/update
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Request Body:
+```json
+{
+    "buy_price": 7000,
+    "lot_size": 3
+}
+```
+
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Stock berhasil diupdate",
+    "data": {
+        "id": 21,
+        "user_id": 1,
+        "name": "BBCA",
+        "buy_price": 7000,
+        "average_price": 7000,
+        "lot_size": 3,
+        "buy_date": "2025-01-20",
+        "action": "long",
+        "conviction": "Harga Bottom",
+        "created_at": "2026-03-01T06:52:13.000000Z",
+        "updated_at": "2026-03-01T06:57:25.000000Z",
+        "status": "open",
+        "balance": 2100000
+    }
+}
+```
+
+Response Body Error:
+```json
+{
+    "success": false,
+    "errors": {
+        "lot_size": [
+            "The lot size field must be at least 1."
+        ]
+    }
+}
+```
+---
+
+### Show Detail Stock API
+- Endpoint: GET /api/v1/stocks/{id}/show
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Detail stock dan notes berhasil diambil",
+    "data": {
+        "id": 21,
+        "user_id": 1,
+        "name": "BBCA",
+        "buy_price": 7000,
+        "average_price": 7000,
+        "lot_size": 3,
+        "buy_date": "2025-01-20",
+        "action": "long",
+        "conviction": "Harga Bottom",
+        "created_at": "2026-03-01T06:52:13.000000Z",
+        "updated_at": "2026-03-01T06:57:25.000000Z",
+        "status": "open",
+        "balance": 2100000,
+        "notes": []
+    }
+}
+```
+
+Response Body Error
+```json
+{
+    "success": false,
+    "message": "Data stock tidak ditemukan"
+}
+```
+---
+
+### Close Position Stock API
+- Endpoint: POST /api/v1/stocks/{id}/close
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Request Body:
+```json
+{
+    "lot" : 1,
+    "sell_price": 6000,
+    "close_date": "2026-03-01",
+    "reason": "Sudah hit target TP"
+}
+```
+
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Posisi berhasil ditutup",
+    "data": {
+        "stock_id": 21,
+        "name": "BBCA",
+        "buy_price": 7000,
+        "sell_price": 6000,
+        "lot_size": 1,
+        "buy_date": "2025-01-20",
+        "close_date": "2026-03-01",
+        "action": "long",
+        "realized_gain": -100000,
+        "reason": "Sudah hit target TP",
+        "percentage_gain": -14.29,
+        "updated_at": "2026-03-01T07:11:25.000000Z",
+        "created_at": "2026-03-01T07:11:25.000000Z",
+        "id": 28
+    }
+}
+```
+
+Reponse Body Error:
+```json
+{
+    "success": false,
+    "errors": {
+        "sell_price": [
+            "The sell price field must be at least 1."
+        ]
+    }
+}
+```
+
+<br>
+<br>
+
+## Notes API
+### Store Notes API
+- Endpoint: POST /api/v1/stocks/{id}/notes
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Request Body:
+```json
+{
+    "type" : "avg_up",
+    "price": 6000,
+    "lot": 3,
+    "content": "Akumulasi Besar"
+}
+```
+
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Note berhasil ditambahkan",
+    "data": {
+        "user_id": 1,
+        "stock_id": 21,
+        "type": "avg_up",
+        "note_date": "2026-03-01",
+        "price": 6000,
+        "lot": 3,
+        "content": "Akumulasi Besar",
+        "updated_at": "2026-03-01T07:17:35.000000Z",
+        "created_at": "2026-03-01T07:17:35.000000Z",
+        "id": 43
+    }
+}
+```
+
+Response Body Error:
+```json
+{
+    "success": false,
+    "errors": {
+        "price": [
+            "The price field must be at least 1."
+        ]
+    }
+}
+```
+---
+
+### Notes List API
+- Endpoint: GET /api/v1/stocks/{id}/notes
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Response Body Success:
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": 43,
+            "user_id": 1,
+            "stock_id": 21,
+            "type": "avg_up",
+            "note_date": "2026-03-01",
+            "price": 6000,
+            "content": "Akumulasi Besar",
+            "created_at": "2026-03-01T07:17:35.000000Z",
+            "updated_at": "2026-03-01T07:17:35.000000Z",
+            "lot": 3
+        }
+    ]
+}
+```
+
+Response Body Error:
+```json
+{
+    "success": false,
+    "message": "Stock tidak ditemukan atau bukan milik Anda"
+}
+```
+---
+
+### Update Notes API
+- Endpoint: GET /api/v1/notes/{id}
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Request Body:
+```json
+{
+    "type": "avg_up",
+    "price": 7000,
+    "lot": 3,
+    "content": "Akumulasi"
+}
+```
+
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Catatan berhasil diperbarui",
+    "data": {
+        "id": 43,
+        "user_id": 1,
+        "stock_id": 21,
+        "type": "avg_up",
+        "note_date": "2026-03-01",
+        "price": 7000,
+        "content": "Akumulasi",
+        "created_at": "2026-03-01T07:17:35.000000Z",
+        "updated_at": "2026-03-01T07:31:43.000000Z",
+        "lot": 3
+    }
+}
+```
+
+Response Body Error:
+```json
+{
+    "success": false,
+    "errors": {
+        "type": [
+            "The type field is required."
+        ],
+        "content": [
+            "The content field is required."
+        ]
+    }
+}
+```
