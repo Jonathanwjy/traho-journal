@@ -1,59 +1,123 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Base URL: http://localhost:8000
 
-## About Laravel
+## Auth API
+### Register User API
+- Endpoint: POST /api/v1/register
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Request Body:
+```json
+{
+    "email" : "john@gmail.com",
+    "password" : "12345678",
+}
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Response Body Success:
+```json
+{
+    "user": {
+        "email": "john@gmail.com",
+        "updated_at": "2026-03-01T05:54:22.000000Z",
+        "created_at": "2026-03-01T05:54:22.000000Z",
+        "id": 1
+    },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL3JlZ2lzdGVyIiwiaWF0IjoxNzcyMzQ0NDYyLCJleHAiOjE3NzIzNDgwNjIsIm5iZiI6MTc3MjM0NDQ2MiwianRpIjoiRkN6YVY1S0VrZ3U4eERmZyIsInN1YiI6IjgiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.X3Y7-orkdQyhVgz5xW8MIzcZwIG6HFRftL_r-sP9s6w"
+}
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Response Body Error:
+```json
+{
+  "status": "error",
+  "message": "Validation failed",
+  "errors": {
+    "email": [
+      "The email has already been taken."
+    ]
+  }
+}
+```
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Login User API
+- Endpoint: POST /api/v1/login
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Request Body:
+```json
+{
+    "email" : "john@gmail.com",
+    "password" : "12345678",
+}
+```
 
-## Laravel Sponsors
+Reponse Body Success:
+```json
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL2xvZ2luIiwiaWF0IjoxNzcyMzQ0NzY0LCJleHAiOjE3NzIzNDgzNjQsIm5iZiI6MTc3MjM0NDc2NCwianRpIjoia1BHTHdmNldEUEtwVkJQZSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.HmNs9LpnvDaEyyU0aIxZD7xSiuEccHTihH_0Mjlj4OQ"
+}
+```
+Response Body Error:
+```json
+{
+    "error": "invalid credentials"
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+### Logout User API
+- Endpoint: POST /api/v1/logout
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Reponse Body Success:
+```json
+{
+    "success": true,
+    "message": "Logout berhasil"
+}
+```
 
-## Contributing
+Response Body Error:
+```json
+{
+    "error": "Token not valid"
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Change Password API
+- Endpoint: POST api/v1/change-password
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
 
-## Code of Conduct
+Request Body:
+```json
+{
+    "old_password": "12345678",
+    "new_password": "11111111"
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Password berhasil diubah."
+}
+```
 
-## Security Vulnerabilities
+Reponse Body Error:
+```json
+{
+    "success": false,
+    "message": "Password lama tidak sesuai"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
