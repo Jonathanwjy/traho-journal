@@ -175,7 +175,7 @@ class NotesController extends Controller
         // 🔒 ambil stock dari URL + pastikan milik user login
         $stock = Stock::where('id', $stock)
             ->where('user_id', $user->id)
-            ->firstOrFail();
+            ->first();
 
         if (!$stock) {
             return response()->json([
