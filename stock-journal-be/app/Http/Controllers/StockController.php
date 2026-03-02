@@ -73,7 +73,7 @@ class StockController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
 
         $stock = Stock::with(['notes' => function ($query) {
-            $query->orderBy('note_date', 'desc'); // Menampilkan note terbaru di atas
+            $query->orderBy('note_date', 'desc');
         }])
             ->where('id', $id)
             ->where('user_id', $user->id)
@@ -95,7 +95,6 @@ class StockController extends Controller
 
     public function update(Request $request, $id)
     {
-        // ... validator tetap sama ...
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:4',
             'buy_price' => 'sometimes|required|numeric|min:1',
@@ -120,12 +119,10 @@ class StockController extends Controller
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 
-        // 1. Cek apakah sudah ada riwayat averaging (avg_up atau avg_down)
         $hasAveraging = $stock->notes()
             ->whereIn('type', ['avg_up', 'avg_down'])
             ->exists();
 
-        // 2. Proteksi: Jika ada averaging, dilarang ubah buy_price atau lot_size
         if ($hasAveraging && ($request->has('buy_price') || $request->has('lot_size'))) {
             return response()->json([
                 'success' => false,
@@ -133,7 +130,6 @@ class StockController extends Controller
             ], 422);
         }
 
-        // 3. Ambil input atau gunakan data lama
         $currentPrice = $request->input('buy_price', $stock->buy_price);
         $currentLot   = $request->input('lot_size', $stock->lot_size);
 
@@ -148,9 +144,7 @@ class StockController extends Controller
             'status'
         ]);
 
-        // 4. Update data (Hanya masuk sini jika tidak melanggar proteksi di atas)
         if ($request->has('buy_price') || $request->has('lot_size')) {
-            // Karena sudah diproteksi, berarti ini adalah update untuk stock yang BELUM averaging
             $updateData['average_price'] = $currentPrice;
             $updateData['balance'] = $currentPrice * $currentLot * 100;
         }
@@ -168,7 +162,6 @@ class StockController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
 
-        // 1. Validasi Input
         $validator = Validator::make($request->all(), [
             'lot'         => 'required|integer|min:1',
             'sell_price' => 'required|numeric|min:1',
@@ -180,10 +173,8 @@ class StockController extends Controller
             return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
-        // 2. Ambil data Stock (pastikan milik user)
         $stock = Stock::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
-        // Proteksi: Pastikan lot yang di-close tidak melebihi lot yang dimiliki
         if ($request->lot > $stock->lot_size) {
             return response()->json([
                 'success' => false,
@@ -193,18 +184,14 @@ class StockController extends Controller
             ], 422);
         }
 
-        // 3. Logika Perhitungan Finansial
-        $buyPrice      = $stock->average_price; // Menggunakan harga rata-rata sebagai acuan beli
+        $buyPrice      = $stock->average_price;
         $sellPrice     = $request->sell_price;
         $lotToClose    = $request->lot;
 
-        // Realized Gain = (Harga Jual - Harga Beli) * Lot * 100
         $realizedGain  = ($sellPrice - $buyPrice) * $lotToClose * 100;
 
-        // Percentage Gain = ((Harga Jual - Harga Beli) / Harga Beli) * 100
         $percentageGain = ($buyPrice > 0) ? (($sellPrice - $buyPrice) / $buyPrice) * 100 : 0;
 
-        // 4. Simpan ke tabel closed_positions
         $closedPosition = ClosedPosition::create([
             'stock_id'        => $stock->id,
             'name'            => $stock->name,
@@ -219,19 +206,15 @@ class StockController extends Controller
             'percentage_gain' => round($percentageGain, 2),
         ]);
 
-        // 5. Update tabel Stock
         $remainingLot = $stock->lot_size - $lotToClose;
 
         if ($remainingLot <= 0) {
-            // Jika lot habis, ubah status atau hapus stock (sesuai kebutuhan Anda)
             $stock->update([
                 'lot_size' => 0,
                 'balance'  => 0,
                 'status'   => 'close'
             ]);
         } else {
-            // Jika masih ada sisa, kurangi lot dan kurangi balance berdasarkan porsi lot yang dijual
-            // Balance baru = Harga rata-rata * Sisa Lot * 100
             $newBalance = $stock->average_price * $remainingLot * 100;
 
             $stock->update([
@@ -250,17 +233,14 @@ class StockController extends Controller
 
     public function jaja()
     {
-        // 1. Ambil user yang sedang login
         $user = JWTAuth::parseToken()->authenticate();
 
-        // 2. Ambil semua closed positions yang terhubung dengan stocks milik user tersebut
         $closedPositions = ClosedPosition::whereHas('stock', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })
-            ->orderBy('close_date', 'desc') // Urutkan dari yang paling baru ditutup
+            ->orderBy('close_date', 'desc')
             ->get();
 
-        // 3. Return response JSON
         return response()->json([
             'success' => true,
             'message' => 'Berhasil mengambil daftar posisi tertutup',

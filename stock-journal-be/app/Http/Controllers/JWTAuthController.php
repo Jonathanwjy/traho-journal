@@ -12,7 +12,6 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class JWTAuthController extends Controller
 {
-    //handle register
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -27,7 +26,6 @@ class JWTAuthController extends Controller
             ], 422);
         }
 
-        //jika valid
         $user = User::create([
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
@@ -98,7 +96,6 @@ class JWTAuthController extends Controller
             ], 422);
         }
 
-        // 3. Cek apakah password lama sesuai dengan yang di database
         if (!Hash::check($request->old_password, $user->password)) {
             return response()->json([
                 'success' => false,
@@ -106,7 +103,6 @@ class JWTAuthController extends Controller
             ], 400);
         }
 
-        // 4. Update password baru
         $user->update([
             'password' => Hash::make($request->new_password)
         ]);

@@ -12,18 +12,15 @@ use App\Models\Note;
 class StatController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
-        // 1. Ambil User dari Token JWT
         $user = JWTAuth::parseToken()->authenticate();
 
         $closedPositions = ClosedPosition::whereHas('stock', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })
-            ->orderBy('close_date', 'desc')->get(); // Urutkan dari tanggal close terbaru
+            ->orderBy('close_date', 'desc')->get();
 
-
-        // 3. Return JSON Response
         return response()->json([
             'success' => true,
             'message' => 'List riwayat transaksi berhasil diambil',
@@ -33,13 +30,10 @@ class StatController extends Controller
 
     public function show()
     {
-        // 1. Ambil data user dari token JWT
         $user = JWTAuth::parseToken()->authenticate();
 
-        // 2. Cari data statistik berdasarkan user_id
         $stat = Stat::where('user_id', $user->id)->first();
 
-        // 3. Jika data belum ada (misal user baru yang belum pernah close posisi)
         if (!$stat) {
             return response()->json([
                 'success' => true,
@@ -57,7 +51,6 @@ class StatController extends Controller
             ]);
         }
 
-        // 4. Return data statistik
         return response()->json([
             'success' => true,
             'message' => 'Berhasil mengambil data statistik',
@@ -69,30 +62,26 @@ class StatController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
         $userId = $user->id;
-        // 1. Ambil semua posisi yang sudah ditutup melalui relasi Stock
+
         $allClosed = ClosedPosition::whereHas('stock', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->get();
 
-        // 2. Hitung Metrik Dasar
         $totalTrades = $allClosed->count();
         $totalWin    = $allClosed->where('realized_gain', '>', 0)->count();
         $totalLoss   = $allClosed->where('realized_gain', '<', 0)->count();
 
-        // 3. Hitung Nominal Profit & Loss
         $realizedEarn = $allClosed->where('realized_gain', '>', 0)->sum('realized_gain');
         $realizedLoss   = $allClosed->where('realized_gain', '<', 0)->sum('realized_gain');
         $totalRealized  = $allClosed->sum('realized_gain');
 
-        // 4. Hitung Win Rate (Persentase)
         $winRate = ($totalTrades > 0) ? ($totalWin / $totalTrades) * 100 : 0;
 
-        // 5. Hitung Total Balance (Modal yang masih 'floating' di saham yang sedang open)
         $totalBalance = Stock::where('user_id', $userId)
             ->where('status', 'open')
             ->sum('balance');
 
-        // 6. Update atau Create data di tabel Stats
+
         $stat = Stat::updateOrCreate(
             ['user_id' => $userId],
             [
@@ -116,27 +105,36 @@ class StatController extends Controller
 
     public function detail_closed_position($id)
     {
-        $closed = ClosedPosition::with('stock')->orderBy('close_date', 'desc')->findOrFail($id);
+
+        $closed = ClosedPosition::with('stock')
+            ->where('id', $id)
+            ->first();
+
+        if (!$closed) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Closed Position tidak ditemukan atau bukan milik Anda'
+            ], 404);
+        }
 
         $notes = [];
         if ($closed->stock_id) {
             $notes = Note::where('stock_id', $closed->stock_id)
-                ->orderBy('note_date')
+                ->orderBy('note_date', 'desc')
                 ->get();
         }
 
         return response()->json([
-            'data' => $closed,
-            'notes' => $notes,
+            'success' => true,
+            'data'    => $closed,
+            'notes'   => $notes,
         ]);
     }
 
-    // StatController.php
     public function getGrowthChart()
     {
         $userId = JWTAuth::parseToken()->authenticate()->id;
 
-        // Mengambil data gain berdasarkan bulan di tahun berjalan
         $growthData = ClosedPosition::whereHas('stock', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })
@@ -146,7 +144,6 @@ class StatController extends Controller
             ->orderBy('month')
             ->get();
 
-        // Mapping angka bulan ke nama bulan singkat (Jan, Feb, dst)
         $formattedData = collect(range(1, 12))->map(function ($m) use ($growthData) {
             $found = $growthData->firstWhere('month', $m);
             return [
