@@ -601,5 +601,61 @@ Accept: Application/json
 ```
 
 Reponse Body Success:
+```json
+{
+    "success": true,
+    "data": {
+        "id": 1,
+        "stock_id": 1,
+        "name": "BBCA",
+        "buy_price": 7000,
+        "sell_price": 6000,
+        "lot_size": 1,
+        "buy_date": "2025-01-20",
+        "close_date": "2026-03-01",
+        "action": "long",
+        "realized_gain": -100000,
+        "reason": "Sudah hit target TP",
+        "percentage_gain": -14.29,
+        "created_at": "2026-03-01T07:11:25.000000Z",
+        "updated_at": "2026-03-01T07:11:25.000000Z",
+        "stock": {
+            "id": 1,
+            "user_id": 1,
+            "name": "BBCA",
+            "buy_price": 7000,
+            "average_price": 7000,
+            "lot_size": 5,
+            "buy_date": "2025-01-20",
+            "action": "long",
+            "conviction": "Harga Bottom",
+            "created_at": "2026-03-01T06:52:13.000000Z",
+            "updated_at": "2026-03-01T07:31:43.000000Z",
+            "status": "open",
+            "balance": 3500000
+        }
+    },
+    "notes": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "stock_id": 1,
+            "type": "avg_up",
+            "note_date": "2026-03-01",
+            "price": 7000,
+            "content": "Akumulasi",
+            "created_at": "2026-03-01T07:17:35.000000Z",
+            "updated_at": "2026-03-01T07:31:43.000000Z",
+            "lot": 3
+        }
+    ]
+}
+```
 
 Response Body Error:
+```json
+{
+    "success": false,
+    "message": "Data Closed Position tidak ditemukan atau bukan milik Anda"
+}
+```
