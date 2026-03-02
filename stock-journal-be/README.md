@@ -511,3 +511,95 @@ Response Body Error:
     }
 }
 ```
+
+<br>
+<br>
+
+## Stats API
+### Show Stats API
+- Endpoint: GET /api/v1/stats/show
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Response Body Succes:
+```json
+{
+    "success": true,
+    "message": "Berhasil mengambil data statistik",
+    "data": {
+        "id": 1,
+        "user_id": 1,
+        "total_trades": 12,
+        "total_win": 4,
+        "total_loss": 8,
+        "realized_earn": 735002,
+        "total_balance": 3705000,
+        "realized_loss": -785000,
+        "realized_profit": 1520002,
+        "win_rate": 33.33,
+        "created_at": "2026-01-31T03:33:23.000000Z",
+        "updated_at": "2026-01-31T04:15:54.000000Z"
+    }
+}
+```
+
+Response Body Error:
+```json
+{
+    "error": "Token not valid"
+}
+```
+---
+
+### Refresh Stats API
+- Endpoint: POST /api/v1/stats/refresh
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Response Body Success:
+```json
+{
+    "success": true,
+    "message": "Statistik berhasil diperbarui",
+    "data": {
+        "id": 1,
+        "user_id": 1,
+        "total_trades": 13,
+        "total_win": 4,
+        "total_loss": 9,
+        "realized_earn": 635002,
+        "total_balance": 7205000,
+        "realized_loss": -885000,
+        "realized_profit": 1520002,
+        "win_rate": 30.77,
+        "created_at": "2026-01-31T03:33:23.000000Z",
+        "updated_at": "2026-03-02T05:32:55.000000Z"
+    }
+}
+```
+
+Reponse Body Error
+```json
+{
+    "error": "Token not valid"
+}
+```
+---
+
+### Detail Closed Position API
+- Endpoint: /api/v1/stats/detail/{id}
+- Headers:
+```json
+Authorization: token
+Accept: Application/json
+```
+
+Reponse Body Success:
+
+Response Body Error:
