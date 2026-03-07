@@ -24,7 +24,6 @@ createRoot(document.getElementById("root")).render(
 
         <Route element={<ProtectedRoute />}>
           {" "}
-          {/* Cek token di sini */}
           <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<ProfilePage />} />

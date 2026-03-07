@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, DollarSign, Package, Calendar } from "lucide-react";
 
-// Default values agar form reset bersih saat dibuka
 const defaultFormValues = {
   sell_price: "",
   lot: "",
@@ -25,14 +24,12 @@ export default function ClosePositionDialog({
   isOpen,
   onClose,
   stock,
-  errors = {}, // Error validasi dari Parent (Laravel 422)
-  onSubmit, // Fungsi submit ke Parent
-  isLoading = false, // Loading state dari Parent
+  errors = {},
+  onSubmit,
+  isLoading = false,
 }) {
   const [formData, setFormData] = useState(defaultFormValues);
 
-  // RESET FORM SAAT DIALOG DIBUKA
-  // Dependency [isOpen] memastikan ini hanya jalan saat modal toggle
   useEffect(() => {
     if (isOpen) {
       setFormData(defaultFormValues);
@@ -50,8 +47,6 @@ export default function ClosePositionDialog({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Kirim data ke Parent.
-    // Parent yang bertanggung jawab melakukan API call & set errors.
     onSubmit(stock.id, {
       lot: formData.lot,
       sell_price: formData.sell_price,
@@ -81,7 +76,6 @@ export default function ClosePositionDialog({
 
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
           <div className="grid grid-cols-2 gap-4">
-            {/* --- INPUT TANGGAL --- */}
             <div className="space-y-2">
               <Label htmlFor="close_date" className="flex items-center gap-2">
                 <Calendar size={14} /> Tanggal Jual
@@ -106,7 +100,6 @@ export default function ClosePositionDialog({
               )}
             </div>
 
-            {/* --- INPUT LOT --- */}
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <Label htmlFor="lot" className="flex items-center gap-2">
@@ -133,7 +126,6 @@ export default function ClosePositionDialog({
             </div>
           </div>
 
-          {/* --- INPUT HARGA JUAL --- */}
           <div className="space-y-2">
             <Label htmlFor="sell_price" className="flex items-center gap-2">
               <DollarSign size={14} /> Harga Jual (Per Lembar)
@@ -154,7 +146,6 @@ export default function ClosePositionDialog({
             )}
           </div>
 
-          {/* --- INPUT ALASAN --- */}
           <div className="space-y-2">
             <Label htmlFor="reason">Alasan Penjualan (Opsional)</Label>
             <Textarea
@@ -172,7 +163,6 @@ export default function ClosePositionDialog({
             )}
           </div>
 
-          {/* --- PREVIEW TOTAL --- */}
           {formData.sell_price && formData.lot && (
             <div className="p-3 bg-muted-foreground rounded-lg border border-border mt-2">
               <div className="flex justify-between text-sm">

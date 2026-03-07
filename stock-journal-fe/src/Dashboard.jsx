@@ -31,7 +31,7 @@ export default function Dashboard() {
 
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState(false);
   const [selectedStockToClose, setSelectedStockToClose] = useState(null);
-  const [isSubmittingClose, setIsSubmittingClose] = useState(false); // Loading tombol dialog
+  const [isSubmittingClose, setIsSubmittingClose] = useState(false);
   const [closeErrors, setCloseErrors] = useState({});
 
   const handleOpenCloseDialog = (stock) => {
@@ -50,10 +50,8 @@ export default function Dashboard() {
     } catch (error) {
       console.error(error);
       if (error.response && error.response.status === 422) {
-        // Validation Error dari Laravel (misal: lot kurang, tanggal kosong)
         setCloseErrors(error.response.data.errors);
       } else {
-        // Error Server Lain
         alert(error.response?.data?.message || "Gagal menutup posisi.");
       }
     } finally {
@@ -72,11 +70,10 @@ export default function Dashboard() {
 
       const response = await getStocks();
 
-      console.log("Response:", response.data); // Debug
+      console.log("Response:", response.data);
 
-      // Sesuaikan dengan struktur response Laravel Anda
       if (response.data.success) {
-        setStocks(response.data.data); // Ambil data dari response
+        setStocks(response.data.data);
       } else {
         setError("Gagal memuat data saham");
       }
@@ -88,30 +85,24 @@ export default function Dashboard() {
     }
   };
 
-  const handleEdit = (stock) => {
-    console.log("Edit stock:", stock);
-  };
-
   const openStocks = stocks.filter((stock) => stock.status === "open");
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const searchedStocks = openStocks.filter((stock) => {
-    if (!searchQuery) return true; // Jika search kosong, tampilkan semua
+    if (!searchQuery) return true;
     return stock.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
   const currentStocks = searchedStocks.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(searchedStocks.length / itemsPerPage);
 
-  // Helper untuk navigasi aman
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
 
-  // Loading State
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -123,7 +114,6 @@ export default function Dashboard() {
     );
   }
 
-  // Error State
   if (error) {
     return (
       <div className="min-h-screen bg-background p-6">
@@ -144,7 +134,6 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-muted-foreground">
@@ -170,13 +159,12 @@ export default function Dashboard() {
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
-                setCurrentPage(1); // Reset ke halaman 1 saat user mengetik
+                setCurrentPage(1);
               }}
             />
           </div>
         </div>
 
-        {/* Summary Stats */}
         {openStocks.length > 0 && (
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-7 mb-5">
             <div className="p-4 rounded-lg bg-card border border-border">
@@ -214,7 +202,6 @@ export default function Dashboard() {
                 <StockCard
                   key={stock.id}
                   stock={stock}
-                  onEdit={handleEdit}
                   onDelete={() => handleOpenCloseDialog(stock)}
                 />
               ))}
@@ -224,17 +211,15 @@ export default function Dashboard() {
               isOpen={isCloseDialogOpen}
               onClose={() => setIsCloseDialogOpen(false)}
               stock={selectedStockToClose}
-              errors={closeErrors} // <-- Pass Error ke Child
-              isLoading={isSubmittingClose} // <-- Pass Loading ke Child
+              errors={closeErrors}
+              isLoading={isSubmittingClose}
               onSubmit={handleSubmitClose}
             />
 
-            {/* --- SHADCN PAGINATION --- */}
             {totalPages > 1 && (
               <div className="mt-8">
                 <Pagination>
                   <PaginationContent>
-                    {/* Tombol Previous */}
                     <PaginationItem>
                       <PaginationPrevious
                         onClick={() => handlePageChange(currentPage - 1)}
@@ -245,8 +230,6 @@ export default function Dashboard() {
                         }
                       />
                     </PaginationItem>
-
-                    {/* Loop Nomor Halaman */}
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                       (page) => (
                         <PaginationItem key={page}>
@@ -261,7 +244,6 @@ export default function Dashboard() {
                       ),
                     )}
 
-                    {/* Tombol Next */}
                     <PaginationItem>
                       <PaginationNext
                         onClick={() => handlePageChange(currentPage + 1)}
@@ -278,7 +260,6 @@ export default function Dashboard() {
             )}
           </>
         ) : (
-          /* Empty State */
           <div className="text-center py-12">Belum ada data...</div>
         )}
       </div>

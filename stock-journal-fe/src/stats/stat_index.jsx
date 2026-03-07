@@ -30,7 +30,6 @@ export default function StatIndex() {
   const [chartData, setChartData] = useState([]);
   const [statsData, setStatsData] = useState(null);
 
-  // --- PAGINATION STATE ---
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
@@ -166,15 +165,12 @@ export default function StatIndex() {
                         <TableRow
                           key={item.id}
                           onClick={() => navigate(`/stats/detail/${item.id}`)}
-                          // Tambahkan group agar elemen di dalamnya bisa bereaksi terhadap hover row
                           className="group hover:bg-muted/80 cursor-pointer transition-all active:scale-[0.99]"
                         >
-                          {/* 1. NO - Berubah warna saat hover */}
                           <TableCell className="hidden md:table-cell text-center font-medium text-background group-hover:text-primary transition-colors">
                             {rowNumber}
                           </TableCell>
 
-                          {/* 2. NAMA SAHAM - Berubah warna saat hover */}
                           <TableCell className="px-3 py-4">
                             <div className="font-bold text-sm sm:text-base text-background leading-tight group-hover:text-primary transition-colors">
                               {item.name}
@@ -184,12 +180,10 @@ export default function StatIndex() {
                             </div>
                           </TableCell>
 
-                          {/* 3. TANGGAL - Berubah warna saat hover */}
                           <TableCell className="text-background text-xs sm:text-sm px-3 group-hover:text-primary transition-colors">
                             {formatDate(item.close_date)}
                           </TableCell>
 
-                          {/* 4. REALIZED GAIN - Tetap Merah/Hijau */}
                           <TableCell
                             className={`text-right px-3 ${
                               isProfit ? "text-green-600" : "text-red-600"
@@ -208,7 +202,6 @@ export default function StatIndex() {
                             </div>
                           </TableCell>
 
-                          {/* 5. % GAIN - Tetap Merah/Hijau */}
                           <TableCell className="hidden md:table-cell text-right px-3">
                             <div
                               className={`flex items-center justify-end gap-1 font-semibold ${
@@ -243,7 +236,6 @@ export default function StatIndex() {
         </Card>
       </div>
 
-      {/* --- PAGINATION --- */}
       {totalPages > 1 && (
         <div className="mt-6">
           <Pagination>

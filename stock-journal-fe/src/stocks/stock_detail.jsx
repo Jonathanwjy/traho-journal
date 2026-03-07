@@ -14,8 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getStockDetail } from "@/api/StockApi";
-// Import komponen Notes yang sudah dipisah
-import NoteCard from "@/notes/note_card"; // Pastikan path ini sesuai struktur folder Anda
+import NoteCard from "@/notes/note_card";
 import ClosePositionDialog from "./close_postion";
 import { closePosition } from "@/api/StockApi";
 
@@ -29,7 +28,7 @@ export default function StockDetail() {
 
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState(false);
   const [selectedStockToClose, setSelectedStockToClose] = useState(null);
-  const [isSubmittingClose, setIsSubmittingClose] = useState(false); // Loading tombol dialog
+  const [isSubmittingClose, setIsSubmittingClose] = useState(false);
   const [closeErrors, setCloseErrors] = useState({});
 
   useEffect(() => {
@@ -38,8 +37,6 @@ export default function StockDetail() {
 
   const fetchDetail = async () => {
     try {
-      // Jika data belum ada (load pertama), set loading true.
-      // Jika data sudah ada (refresh karena update notes), biarkan false agar tidak flickering.
       if (!stock) setLoading(true);
 
       const response = await getStockDetail(id);
@@ -68,10 +65,8 @@ export default function StockDetail() {
     } catch (error) {
       console.error(error);
       if (error.response && error.response.status === 422) {
-        // Validation Error dari Laravel (misal: lot kurang, tanggal kosong)
         setCloseErrors(error.response.data.errors);
       } else {
-        // Error Server Lain
         alert(error.response?.data?.message || "Gagal menutup posisi.");
       }
     } finally {
@@ -121,8 +116,6 @@ export default function StockDetail() {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-5xl mx-auto">
         {" "}
-        {/* Lebarkan container utama agar muat banyak */}
-        {/* --- Header Navigation --- */}
         <div className="mb-6">
           <Button
             variant="ghost"
@@ -132,7 +125,6 @@ export default function StockDetail() {
             <ArrowLeft className="mr-2 h-4 w-4" /> Kembali ke Dashboard
           </Button>
         </div>
-        {/* --- Title & Status Header --- */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <div className="flex items-center gap-3">
@@ -156,8 +148,6 @@ export default function StockDetail() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          {/* KOLOM 1: Informasi Transaksi (1/3 Lebar) */}
-          {/* Secara default mengambil 1 kolom dari 3 (33%) */}
           <Card className="md:col-span-1 h-fit">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
@@ -166,7 +156,6 @@ export default function StockDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-1 gap-6">
-              {/* ... isi konten sama ... */}
               <div className="bg-muted/30 p-4 rounded-lg border border-border">
                 <p className="text-sm text-background mb-1">Balance</p>
                 <p className="text-3xl font-bold text-background">
@@ -203,8 +192,6 @@ export default function StockDetail() {
             </CardContent>
           </Card>
 
-          {/* KOLOM 2: Notes & Journal (2/3 Lebar) */}
-          {/* md:col-span-2 artinya mengambil 2 kolom dari total 3 (66%) */}
           <div className="md:col-span-2 w-full">
             <NoteCard
               stockId={id}
@@ -219,8 +206,8 @@ export default function StockDetail() {
         isOpen={isCloseDialogOpen}
         onClose={() => setIsCloseDialogOpen(false)}
         stock={selectedStockToClose}
-        errors={closeErrors} // <-- Pass Error ke Child
-        isLoading={isSubmittingClose} // <-- Pass Loading ke Child
+        errors={closeErrors}
+        isLoading={isSubmittingClose}
         onSubmit={handleSubmitClose}
       />
     </div>

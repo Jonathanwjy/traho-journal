@@ -11,10 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function StockForm({
-  initialData = {}, // Data awal (kosong untuk Add, terisi untuk Edit)
-  onSubmit, // Function yang dipanggil parent saat submit
-  isLoading, // State loading dari parent
-  errors = {}, // Error validasi dari API
+  initialData = {},
+  onSubmit,
+  isLoading,
+  errors = {},
   buttonText = "Simpan Transaksi",
 }) {
   // Default values
@@ -25,13 +25,12 @@ export default function StockForm({
     buy_date: new Date().toISOString().split("T")[0],
     action: "long",
     conviction: "",
-    ...initialData, // Override dengan data jika ada (mode Edit)
+    ...initialData,
   };
 
   const [formData, setFormData] = useState(defaultValues);
   const [estimatedBalance, setEstimatedBalance] = useState(0);
 
-  // Update state jika initialData berubah (penting untuk Edit page saat fetch data)
   useEffect(() => {
     if (initialData && Object.keys(initialData).length > 0) {
       setFormData((prev) => ({ ...prev, ...initialData }));
@@ -59,7 +58,6 @@ export default function StockForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Kirim data ke parent component
     onSubmit(formData);
   };
 
@@ -74,7 +72,6 @@ export default function StockForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-4 text-card-foreground">
-        {/* Row 1: Ticker & Date */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Kode Saham (Ticker)</label>
@@ -122,7 +119,6 @@ export default function StockForm({
           </div>
         </div>
 
-        {/* Row 2: Price & Lot */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">
@@ -172,7 +168,6 @@ export default function StockForm({
           </div>
         </div>
 
-        {/* Row 3: Action & Conviction */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Posisi (Action)</label>
@@ -210,7 +205,6 @@ export default function StockForm({
           </div>
         </div>
 
-        {/* Total Balance Preview */}
         <div className="pt-4 border-t border-border mt-4">
           <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg">
             <div className="flex items-center gap-2 text-muted-foreground">

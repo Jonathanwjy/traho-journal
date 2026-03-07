@@ -12,7 +12,7 @@ export const getClosedPositions = async () => {
 
 export const getDetailClosed = async (id) => {
   const token = localStorage.getItem("token");
-  // Perbaikan: Masukkan objek header ke dalam parameter axios.get
+
   return await api.get(`/stats/detail/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,

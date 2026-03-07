@@ -23,7 +23,6 @@ export default function StatCards({ stats }) {
     <Card className="border-none bg-[#2e2e38] shadow-lg mb-8 overflow-hidden">
       <CardContent className="p-0">
         <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-background/10">
-          {/* 1. Win Rate */}
           <div className="p-4 flex flex-col gap-1">
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-background/50 font-bold">
@@ -36,7 +35,6 @@ export default function StatCards({ stats }) {
             </div>
           </div>
 
-          {/* 2. Total Realized (Net) + Detail Profit & Loss */}
           <div className="p-4 flex flex-col gap-1">
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-background/50 font-bold">
@@ -49,7 +47,7 @@ export default function StatCards({ stats }) {
             >
               {formatRupiah(stats?.realized_earn)}
             </div>
-            {/* Detail Realized Profit & Loss */}
+
             <div className="flex gap-2 text-[9px] font-bold mt-1">
               <span className="text-green-500">
                 P: {formatRupiah(stats?.realized_profit)}
@@ -60,7 +58,6 @@ export default function StatCards({ stats }) {
             </div>
           </div>
 
-          {/* 3. Total Trades */}
           <div className="p-4 flex flex-col gap-1">
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-background/50 font-bold">
@@ -79,7 +76,6 @@ export default function StatCards({ stats }) {
             </div>
           </div>
 
-          {/* 4. Open Balance */}
           <div className="p-4 flex flex-col gap-1">
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-background/50 font-bold">

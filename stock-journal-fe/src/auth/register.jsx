@@ -17,7 +17,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrors({}); // Reset errors
+    setErrors({});
     setAlertMessage("");
 
     try {
@@ -25,18 +25,15 @@ export default function RegisterPage() {
 
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        // Redirect atau tampilkan success message
         setAlertMessage("Register berhasil");
         setTimeout(() => {
           navigate("/login");
         }, 2500);
       }
     } catch (error) {
-      // Handle validation errors (422)
       if (error.response?.status === 422) {
         setErrors(error.response.data.errors || {});
       } else {
-        // Handle other errors
         alert("Terjadi kesalahan server");
       }
     } finally {

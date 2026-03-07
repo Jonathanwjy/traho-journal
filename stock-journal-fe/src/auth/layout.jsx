@@ -216,15 +216,6 @@ export default function Layout({
                   />
                 </div>
               </div>
-
-              {/* Additional Text */}
-              <div className="text-center">
-                <p className="text-sm opacity-70" style={{ color: "#37353E" }}>
-                  Fitur yang lengkap disesuaikan oleh perilaku trader
-                  <br />
-                  Tampilan menarik dan visualisasi grafik
-                </p>
-              </div>
             </div>
           </div>
         </div>

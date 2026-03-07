@@ -10,14 +10,11 @@ export default function RefreshStatsButton({ onRefreshSuccess }) {
     try {
       setIsRefreshing(true);
 
-      // Memanggil API yang sudah diperbaiki (POST method)
       await refreshStats();
 
-      // Callback jika Anda ingin melakukan aksi tambahan setelah sukses
       if (onRefreshSuccess) {
         onRefreshSuccess();
       } else {
-        // Default: Reload halaman untuk sinkronisasi data UI
         window.location.reload();
       }
     } catch (error) {

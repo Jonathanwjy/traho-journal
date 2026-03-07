@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useNavigate } from "react-router-dom";
 import { addStock } from "@/api/StockApi";
-import StockForm from "@/components/form/stock_form"; // Import komponen baru
+import StockForm from "@/components/form/stock_form";
 
 export default function AddStock() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function AddStock() {
     try {
       const payload = {
         ...formData,
-        average_price: formData.buy_price, // Logika backend
+        average_price: formData.buy_price,
       };
 
       await addStock(payload);
@@ -44,7 +44,6 @@ export default function AddStock() {
   return (
     <div className="flex-1 p-6 bg-background text-foreground min-h-screen">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
             <ArrowLeft size={18} />
@@ -57,7 +56,6 @@ export default function AddStock() {
           </div>
         </div>
 
-        {/* Success Alert */}
         {success && (
           <div className="mb-6">
             <Alert className="bg-green-500/10 border-green-500 text-green-500">
@@ -68,7 +66,6 @@ export default function AddStock() {
           </div>
         )}
 
-        {/* Panggil Reusable Form */}
         <StockForm
           onSubmit={handleAddStock}
           isLoading={loading}

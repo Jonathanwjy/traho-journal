@@ -67,7 +67,6 @@ export default function StatDetail() {
   return (
     <div className="min-h-screen bg-background p-4 sm:p-6 text-background">
       <div className="mx-auto max-w-3xl">
-        {/* Tombol Kembali */}
         <Button
           variant="outline"
           size="icon"
@@ -78,7 +77,6 @@ export default function StatDetail() {
         </Button>
         <span className="text-black ml-2">Kembali</span>
         <div className="grid gap-6 mt-6">
-          {/* Main Info Card */}
           <Card className="border-none bg-[#2e2e38]">
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
@@ -107,7 +105,6 @@ export default function StatDetail() {
             </CardHeader>
           </Card>
 
-          {/* Journal Notes Card */}
           <Card className="border-none bg-[#2e2e38]">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg text-background">
@@ -121,7 +118,6 @@ export default function StatDetail() {
                     key={note.id}
                     className="relative text-sm border-l-2 border-muted pl-3 py-2 pr-10 grouspanhover:bg-muted/10 rounded transition-colors"
                   >
-                    {/* Isi Konten Note */}
                     <div className="flex items-center gap-2 mb-1">
                       <span className="bg-muted/30 p-1 rounded-sm border border-border text-xs font-semibold">
                         {note.type.replace("_", " ").toUpperCase()}

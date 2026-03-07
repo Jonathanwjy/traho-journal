@@ -12,9 +12,6 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 
-// --- 1. DEFINISI VARIABLE & FUNGSI DI LUAR KOMPONEN ---
-// Supaya komponen utama bersih
-
 const defaultValues = {
   type: "note",
   price: "",
@@ -26,7 +23,6 @@ const defaultValues = {
 const sanitizeValues = (data) => {
   if (!data) return defaultValues;
 
-  // Logic pembersihan (Trim, Lowercase, Date Format)
   const rawType = data.type ? String(data.type).trim().toLowerCase() : "note";
   const validTypes = ["note", "avg_up", "avg_down"];
   const finalType = validTypes.includes(rawType) ? rawType : "note";
@@ -42,8 +38,6 @@ const sanitizeValues = (data) => {
   };
 };
 
-// --- 2. KOMPONEN UTAMA (Jauh lebih ringkas) ---
-
 export default function NoteForm({
   initialData,
   onSubmit,
@@ -51,10 +45,8 @@ export default function NoteForm({
   isLoading = false,
   buttonText = "Simpan",
 }) {
-  // State langsung diisi hasil sanitize
   const [formData, setFormData] = useState(() => sanitizeValues(initialData));
 
-  // Update form jika initialData berubah (saat ganti item edit)
   useEffect(() => {
     setFormData(sanitizeValues(initialData));
   }, [initialData]);
@@ -62,7 +54,6 @@ export default function NoteForm({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Logic payload
     const payload = {
       ...formData,
       price: formData.type === "note" ? null : formData.price,
@@ -78,8 +69,6 @@ export default function NoteForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 py-4">
-      {/* --- FORM FIELDS (Sama seperti sebelumnya) --- */}
-
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Tipe Catatan</Label>

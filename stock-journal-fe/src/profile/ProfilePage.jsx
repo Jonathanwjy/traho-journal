@@ -88,17 +88,14 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen p-4 py-6 bg-background text-foreground transition-colors duration-300 flex items-center justify-center">
       <div className="max-w-5xl w-full mx-auto">
-        {/* Header - Reduced margin */}
         <div className="text-center mb-4">
           <h1 className="text-3xl font-bold text-foreground">Profil Saya</h1>
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
-          {/* Left Column - Profile Info */}
           <div className="rounded-xl shadow-lg p-6 bg-card border border-border text-card-foreground">
             <h2 className="text-xl font-bold mb-4">Informasi Profil</h2>
 
-            {/* Profile Photo - Smaller */}
             <div className="flex flex-col items-center mb-4">
               <div className="relative">
                 <div className="w-24 h-24 rounded-full flex items-center justify-center overflow-hidden bg-muted border-2 border-border">
@@ -119,7 +116,6 @@ export default function ProfilePage() {
               </p>
             </div>
 
-            {/* Email Display */}
             <div>
               <label className="block text-sm font-medium mb-2 text-white">
                 Email
@@ -139,11 +135,9 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Right Column - Change Password */}
           <div className="rounded-xl shadow-lg p-6 bg-card border border-border text-card-foreground">
             <h2 className="text-xl font-bold mb-4">Ubah Password</h2>
 
-            {/* Success/Error Message - Compact */}
             {statusMessage.text && (
               <div className="mb-3">
                 <Alert
@@ -172,7 +166,6 @@ export default function ProfilePage() {
             )}
 
             <form className="space-y-3" onSubmit={handleChangePassword}>
-              {/* Current Password */}
               <div>
                 <label className="block text-sm font-medium mb-1.5">
                   Password Saat Ini
@@ -210,7 +203,6 @@ export default function ProfilePage() {
                 )}
               </div>
 
-              {/* New Password */}
               <div>
                 <label className="block text-sm font-medium mb-1.5">
                   Password Baru
@@ -244,7 +236,6 @@ export default function ProfilePage() {
                 )}
               </div>
 
-              {/* Confirm Password */}
               <div>
                 <label className="block text-sm font-medium mb-1.5">
                   Konfirmasi Password Baru
@@ -282,7 +273,6 @@ export default function ProfilePage() {
                 )}
               </div>
 
-              {/* Submit Button */}
               <Button
                 type="submit"
                 disabled={loading}
@@ -292,7 +282,6 @@ export default function ProfilePage() {
               </Button>
             </form>
 
-            {/* Password Requirements Info - Compact */}
             <div className="mt-3 p-2.5 rounded-lg bg-muted/30 border border-border">
               <p className="text-xs font-semibold mb-1 text-foreground">
                 Persyaratan Password:
@@ -306,7 +295,6 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Back Button - Reduced margin */}
         <div className="text-center mt-4">
           <Button variant="ghost" asChild className="h-9">
             <a

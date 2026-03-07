@@ -65,13 +65,11 @@ export default function LoginPage() {
       {alertMessage && (
         <div className="mb-4">
           {alertStatus === "success" ? (
-            // Alert Berhasil (Hijau)
             <Alert className="bg-green-100 text-green-800 border-green-300">
               <AlertTitle>Berhasil</AlertTitle>
               <AlertDescription>{alertMessage}</AlertDescription>
             </Alert>
           ) : (
-            // Alert Gagal (Merah menggunakan Shadcn Destructive)
             <Alert className="bg-red-200 text-red-800 border-red-300">
               <AlertTitle>Gagal Login</AlertTitle>
               <AlertDescription>{alertMessage}</AlertDescription>

@@ -9,17 +9,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-// Pastikan import updateNote ada
 import { getNotes, addNote, updateNote } from "@/api/NotesApi";
 import NoteForm from "@/notes/note_form";
 
 export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
   const [notes, setNotes] = useState([]);
   const [loadingNotes, setLoadingNotes] = useState(true);
-
-  // --- STATE PENTING UNTUK EDIT ---
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedNote, setSelectedNote] = useState(null); // NULL = Mode Add, Object = Mode Edit
+  const [selectedNote, setSelectedNote] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [noteErrors, setNoteErrors] = useState({});
 
@@ -39,42 +36,35 @@ export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
     }
   };
 
-  // 1. Handle Klik Tombol TAMBAH (+)
   const handleOpenAdd = () => {
     setSelectedNote(null);
     setNoteErrors({});
     setIsDialogOpen(true);
   };
 
-  // 2. Handle Klik Tombol EDIT (Pencil)
   const handleOpenEdit = (note) => {
     setSelectedNote(note);
     setNoteErrors({});
     setIsDialogOpen(true);
   };
 
-  // 3. Handle Submit (Bisa untuk Add maupun Edit)
   const handleSubmit = async (formData) => {
     setIsSubmitting(true);
     setNoteErrors({});
 
     try {
       if (selectedNote) {
-        // --- LOGIC UPDATE (Jika selectedNote ada isinya) ---
-        // Asumsi API updateNote menerima (id, data)
         await updateNote(selectedNote.id, formData);
       } else {
-        // --- LOGIC CREATE (Jika selectedNote null) ---
         await addNote(stockId, formData);
       }
 
-      // Refresh data list & parent
       await fetchNotes();
       if (onTransactionUpdate) {
         onTransactionUpdate();
       }
 
-      setIsDialogOpen(false); // Tutup Modal
+      setIsDialogOpen(false);
     } catch (error) {
       if (error.response && error.response.status === 422) {
         setNoteErrors(error.response.data.errors);
@@ -86,7 +76,6 @@ export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
     }
   };
 
-  // Helper render (sama seperti sebelumnya)
   const formatRupiah = (num) =>
     new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -103,7 +92,6 @@ export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
           <FileText className="h-5 w-5 text-primary" /> Catatan / Alasan
         </CardTitle>
 
-        {/* Tombol Plus (Hanya Trigger Buka Modal Mode Add) */}
         <Button
           variant="outline"
           size="icon"
@@ -113,18 +101,14 @@ export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
           <Plus className="h-4 w-4" />
         </Button>
 
-        {/* --- SATU DIALOG UNTUK SEMUA --- */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {/* Judul berubah dinamis */}
                 {selectedNote ? "Edit Catatan" : "Tambah Catatan"}
               </DialogTitle>
             </DialogHeader>
 
-            {/* Form Reusable */}
-            {/* Jika selectedNote berubah, NoteForm akan mendeteksi via useEffect di dalamnya */}
             <NoteForm
               initialData={selectedNote}
               onSubmit={handleSubmit}
@@ -137,7 +121,6 @@ export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
       </CardHeader>
 
       <CardContent>
-        {/* Conviction Section (Tetap) */}
         <div className="mb-6 bg-muted/30 p-4 rounded-lg border border-border">
           {conviction ? (
             <div className="text-sm">"{conviction}"</div>
@@ -148,7 +131,6 @@ export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
 
         <Separator className="my-4" />
 
-        {/* List Notes */}
         <div className="space-y-4">
           <p className="text-xs font-semibold uppercase tracking-wider">
             Riwayat Catatan ({notes.length})
@@ -165,18 +147,16 @@ export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
                   key={note.id}
                   className="relative text-sm border-l-2 border-muted pl-3 py-2 pr-10 group hover:bg-muted/10 rounded transition-colors"
                 >
-                  {/* --- TOMBOL EDIT (Posisi Absolute di Kanan) --- */}
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => handleOpenEdit(note)} // Kirim data note ini ke function
+                    onClick={() => handleOpenEdit(note)}
                     className="absolute right-0 top-1 h-7 w-7 text-white hover:bg-muted hover:text-black transition duration-300"
                     title="Edit"
                   >
                     <Pencil className="h-3.5 w-3.5" />
                   </Button>
 
-                  {/* Isi Konten Note */}
                   <div className="flex items-center gap-2 mb-1">
                     <span className="bg-muted/30 p-1 rounded-sm border border-border text-xs font-semibold">
                       {note.type.replace("_", " ").toUpperCase()}

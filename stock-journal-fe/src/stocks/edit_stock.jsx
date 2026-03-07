@@ -3,34 +3,29 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, TrendingUp, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-// Sesuaikan path import ini dengan struktur folder Anda yang terakhir
 import StockForm from "../components/form/stock_form";
 import { getStockDetail, updateStock } from "@/api/StockApi";
 
 export default function EditStock() {
-  const { id } = useParams(); // Ambil ID dari URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  // State
-  const [loading, setLoading] = useState(false); // Loading saat tombol simpan ditekan
-  const [fetching, setFetching] = useState(true); // Loading saat ambil data awal
-  const [initialData, setInitialData] = useState({}); // Data saham dari database
-  const [errors, setErrors] = useState({}); // Error validasi
-  const [success, setSuccess] = useState(false); // Notifikasi sukses
-  // Di dalam komponen EditStock
-  const [generalError, setGeneralError] = useState(""); // <--- Tambahkan ini
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [initialData, setInitialData] = useState({});
+  const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState(false);
+  const [generalError, setGeneralError] = useState("");
 
-  // 1. Fetch Data saat halaman dibuka
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getStockDetail(id);
-        // Pastikan response.data.data sesuai dengan struktur JSON API Anda
         setInitialData(response.data.data);
       } catch (error) {
         console.error("Gagal mengambil data:", error);
         alert("Data tidak ditemukan");
-        navigate("/dashboard"); // Redirect jika ID salah
+        navigate("/dashboard");
       } finally {
         setFetching(false);
       }
@@ -39,7 +34,6 @@ export default function EditStock() {
     fetchData();
   }, [id, navigate]);
 
-  // 2. Handle Update (Dipanggil saat form disubmit)
   const handleUpdate = async (formData) => {
     setLoading(true);
     setErrors({});
@@ -47,12 +41,10 @@ export default function EditStock() {
     setGeneralError("");
 
     try {
-      // Panggil API updateStock dengan (ID, Data)
       await updateStock(id, formData);
 
       setSuccess(true);
 
-      // Redirect setelah sukses
       setTimeout(() => {
         navigate("/dashboard");
       }, 1500);
@@ -60,14 +52,12 @@ export default function EditStock() {
       if (error.response?.status === 422) {
         const responseData = error.response.data;
 
-        // 1. Error Validasi (Input Field)
         if (responseData.errors) {
           setErrors(responseData.errors);
         }
 
-        // 2. Error Global (Logic Controller)
         if (responseData.message) {
-          setGeneralError(responseData.message); // <--- Simpan pesan error
+          setGeneralError(responseData.message);
         }
       } else {
         console.error(error);
@@ -78,7 +68,6 @@ export default function EditStock() {
     }
   };
 
-  // Tampilkan Loading Spinner saat data belum siap
   if (fetching) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -90,7 +79,6 @@ export default function EditStock() {
   return (
     <div className="flex-1 p-6 bg-background text-foreground min-h-screen">
       <div className="max-w-2xl mx-auto">
-        {/* Header & Back Button */}
         <div className="flex items-center gap-4 mb-6">
           <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
             <ArrowLeft size={18} />
@@ -115,7 +103,6 @@ export default function EditStock() {
           </div>
         )}
 
-        {/* Success Alert */}
         {success && (
           <div className="mb-6">
             <Alert className="bg-green-500/10 border-green-500 text-green-500">
@@ -128,8 +115,6 @@ export default function EditStock() {
           </div>
         )}
 
-        {/* Form Component */}
-        {/* Kita oper 'initialData' agar form terisi otomatis */}
         <StockForm
           initialData={initialData}
           onSubmit={handleUpdate}

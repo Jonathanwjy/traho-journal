@@ -9,34 +9,34 @@ export const login = async (data) => {
 };
 
 export const logout = async () => {
-  const token = localStorage.getItem("token"); // Ambil token aktif
+  const token = localStorage.getItem("token");
   return await api.post(
     "/logout",
     {},
     {
       headers: {
-        Authorization: `Bearer ${token}`, // Sertakan token agar server mengenali user
+        Authorization: `Bearer ${token}`,
       },
     },
   );
 };
 
 export const changePassword = async (data) => {
-  const token = localStorage.getItem("token"); // Ambil token yang disimpan saat login
+  const token = localStorage.getItem("token");
 
   return await api.post("/change-password", data, {
     headers: {
-      Authorization: `Bearer ${token}`, // Kirim token ke backend Laravel
+      Authorization: `Bearer ${token}`,
       Accept: "application/json",
     },
   });
 };
 
 export const getProfile = async () => {
-  const token = localStorage.getItem("token"); // Ambil token aktif
+  const token = localStorage.getItem("token");
   return await api.get("/profile", {
     headers: {
-      Authorization: `Bearer ${token}`, // Identifikasi user ke Laravel
+      Authorization: `Bearer ${token}`,
       Accept: "application/json",
     },
   });
