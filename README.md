@@ -37,3 +37,42 @@ Additionally, integrated charts provide clear data visualization, helping trader
 - Node.JS >= 16
 - NPM
 
+### Instalation
+- Install PHP dependencies
+```
+composer install
+```
+- Install frontend dependencies
+```
+npm install
+```
+- Install Tailwind
+```
+npm install tailwindcss @tailwindcss/vite
+```
+- Generate Application key
+```
+php artisan key:generate
+```
+- Database configuration
+- - Create a new database
+  - Open .env file and configure
+    ```
+    DB_DATABASE=your_database_name
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+    ```
+  - Run migration:
+    ```
+    php artisan migrate
+    ```
+
+
+- How to run on React.JS:
+```
+npm run dev
+```
+- How to run on Laravel API:
+```
+php artisan serve
+```
