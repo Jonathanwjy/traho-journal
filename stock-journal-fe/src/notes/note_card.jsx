@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { getNotes, addNote, updateNote } from "@/api/NotesApi";
 import NoteForm from "@/notes/note_form";
+import { formatRupiah } from "@/utils/format";
 
 export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
   const [notes, setNotes] = useState([]);
@@ -76,12 +77,6 @@ export default function NoteCard({ stockId, conviction, onTransactionUpdate }) {
     }
   };
 
-  const formatRupiah = (num) =>
-    new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(num);
   const renderContent = (c) =>
     typeof c === "object" ? c?.content || JSON.stringify(c) : c || "-";
 

@@ -22,6 +22,7 @@ import { getClosedPositions, getStats, getGrowthChart } from "@/api/StatApi";
 import RefreshStatsButton from "./refresh_button";
 import StatCards from "./stat_card";
 import GrowthChart from "./growth_chart";
+import { formatDate, formatRupiah } from "@/utils/format";
 
 export default function StatIndex() {
   const navigate = useNavigate();
@@ -88,20 +89,6 @@ export default function StatIndex() {
       setCurrentPage(page);
     }
   };
-
-  const formatRupiah = (num) =>
-    new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(num);
-
-  const formatDate = (dateString) =>
-    new Date(dateString).toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
 
   return (
     <div className="min-h-screen bg-background p-4 sm:p-6">

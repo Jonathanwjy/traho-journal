@@ -7,15 +7,9 @@ import {
   Target,
   Wallet,
 } from "lucide-react";
+import { formatRupiah } from "@/utils/format";
 
 export default function StatCards({ stats }) {
-  const formatRupiah = (num) =>
-    new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(num || 0);
-
   const getProfitColor = (val) =>
     val >= 0 ? "text-green-500" : "text-red-500";
 

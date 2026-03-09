@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { getDetailClosed } from "@/api/StatApi";
 import { Loader2 } from "lucide-react";
+import { formatRupiah } from "@/utils/format";
 
 export default function StatDetail() {
   const { id } = useParams();
@@ -38,13 +39,6 @@ export default function StatDetail() {
     };
     fetchData();
   }, [id]);
-
-  const formatRupiah = (num) =>
-    new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(num || 0);
 
   if (loading)
     return (

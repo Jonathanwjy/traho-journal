@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, DollarSign, Package, Calendar } from "lucide-react";
+import { formatRupiah } from "@/utils/format";
 
 const defaultFormValues = {
   sell_price: "",
@@ -54,13 +55,6 @@ export default function ClosePositionDialog({
       reason: formData.reason,
     });
   };
-
-  const formatRupiah = (num) =>
-    new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(num);
 
   if (!stock) return null;
 

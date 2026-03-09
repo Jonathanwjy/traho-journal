@@ -13,12 +13,13 @@ import EditStock from "./stocks/edit_stock";
 import StockDetail from "./stocks/stock_detail";
 import StatIndex from "./stats/stat_index";
 import StatDetail from "./stats/stat_detail";
+import Welcome from "./welcome/welcome";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPage />} />
 

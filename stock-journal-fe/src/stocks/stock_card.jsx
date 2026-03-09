@@ -21,24 +21,10 @@ import {
   HandCoins,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { formatDate, formatRupiah } from "@/utils/format";
 
-export default function StockCard({ stock, onDelete, onDetail }) {
+export default function StockCard({ stock, onDelete }) {
   const navigate = useNavigate();
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(value);
-  };
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  };
 
   const getActionStyle = (action) => {
     if (action === "long") {
@@ -94,7 +80,7 @@ export default function StockCard({ stock, onDelete, onDetail }) {
                 <span className="text-xs text-card-foreground">Buy Price</span>
               </div>
               <p className="text-lg font-semibold">
-                {formatCurrency(stock.buy_price)}
+                {formatRupiah(stock.buy_price)}
               </p>
             </div>
 
@@ -104,7 +90,7 @@ export default function StockCard({ stock, onDelete, onDetail }) {
                 <p className="text-xs text-white">Avg Price</p>
               </div>
               <p className="text-lg font-semibold">
-                {formatCurrency(stock.average_price)}
+                {formatRupiah(stock.average_price)}
               </p>
             </div>
           </div>
@@ -121,7 +107,7 @@ export default function StockCard({ stock, onDelete, onDetail }) {
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Balance</span>
               <span className="text-lg font-bold text-primary">
-                {formatCurrency(stock.balance)}
+                {formatRupiah(stock.balance)}
               </span>
             </div>
           </div>
