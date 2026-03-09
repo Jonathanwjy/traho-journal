@@ -8,6 +8,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import ThreeDCarousel from "@/components/lightswind/3d-carousel";
+import FallBeamBackground from "@/components/lightswind/fall-beam-background";
 
 const navItems = [
   { key: "home", label: "Home", link: "#home" },
@@ -35,29 +36,47 @@ const heroImages = [
 const features = [
   {
     id: 1,
-    title: "6th SENSE Safety System",
-    brand: "FireCat Group",
+    title: "Portofolio monitoring",
+    brand: "Realtime Portofolio Monitoring",
     description:
-      "AI-driven smart uniform tech for law enforcement, military & firefighters.",
-    imageUrl: "/img/firecat.jpg",
+      "Lihat saham apa saja yang sedang kamu pengang dan informasi terkait seperti average harga, ",
+    imageUrl: "/images//features/porto.png",
     link: "/projects/firecat",
   },
   {
     id: 2,
-    title: "6th SENSE Safety System",
-    brand: "FireCat Group",
+    title: "Stock Manage",
+    brand: "Manage Your Stock Easily",
     description:
-      "AI-driven smart uniform tech for law enforcement, military & firefighters.",
-    imageUrl: "/img/firecat.jpg",
+      "Add a new position easily with value calculation or edit the stocks data and close stock position",
+    imageUrl: "/images/features/add.png",
     link: "/projects/firecat",
   },
   {
     id: 3,
-    title: "6th SENSE Safety System",
-    brand: "FireCat Group",
+    title: "Notes for adaption",
+    brand: "Add notes to your stock",
     description:
-      "AI-driven smart uniform tech for law enforcement, military & firefighters.",
-    imageUrl: "/img/firecat.jpg",
+      "Tambahkan catatan analisa terbaru dengan tanggal untuk memudahkan pembacaan analisa mengikuti perkembangan makro ekonomi yang terus berubah dan teknikal",
+    imageUrl: "/images/features/adapt.png",
+    link: "/projects/firecat",
+  },
+  {
+    id: 4,
+    title: "Chart Visualitazion",
+    brand: "Track your trading performance",
+    description:
+      "Tampilan grafik yang memudahkan anda memantau progress trading anda",
+    imageUrl: "/images/features/visual.png",
+    link: "/projects/firecat",
+  },
+  {
+    id: 5,
+    title: "Trade History",
+    brand: "Look up to past",
+    description:
+      "Lihat trade terdahulu anda dengan data yang ada serta catatannya untuk mengevaluasi trading plan anda",
+    imageUrl: "/images/features/review.png",
     link: "/projects/firecat",
   },
 ];
@@ -139,10 +158,10 @@ export default function Welcome() {
         </section>
 
         <section id="about" className="h-screen mt-12 pt-32 px-48">
-          <h1 className="text-5xl text-center font-bold">About Us</h1>
-          <div className="flex px-12 justify-evenly items-center">
-            <img src="/images/logo.png" className=""></img>
-            <p className="">
+          <h1 className="text-5xl text-center font-bold mb-12">About Us</h1>
+          <div className="flex px-12 gap-12 justify-evenly items-center">
+            <img src="/images/logo.png" className="rounded-2xl"></img>
+            <p className="text-justify text-lg">
               Kami hadir menciptakan solusi bagi anda! Masalah jurnaling trading
               anda dapat kami selesaikan disini. Desain yang user friendly dan
               interaktif membuat gampang dibaca dan diemengerti oleh banyak
@@ -152,7 +171,8 @@ export default function Welcome() {
           </div>
         </section>
 
-        <section id="features" className="h-screen mt-12 pt-32 px-48">
+        <section id="features" className="relative h-screen mt-12 pt-32 px-48">
+          <FallBeamBackground lineCount={25} beamColorClass="primary" />
           <h1 className="text-5xl text-center font-bold">Features</h1>
           <div className="flex px-12 justify-evenly items-center">
             <ThreeDCarousel

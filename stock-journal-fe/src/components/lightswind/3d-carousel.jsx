@@ -100,22 +100,14 @@ const ThreeDCarousel = ({
                   style={{ height: `${cardHeight}px` }}
                 >
                   <div
-                    className="relative p-6 flex items-center justify-center h-48 overflow-hidden"
+                    className="relative p-6 flex items-center justify-center h-80"
                     style={{
                       backgroundImage: `url(${item.imageUrl})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
+                      backgroundSize: "contain",
+                      backgroundPosition: "top",
+                      backgroundRepeat: "no-repeat",
                     }}
-                  >
-                    <div className="absolute inset-0 bg-black/50" />
-                    <div className="relative z-10 text-center text-white">
-                      <h3 className="text-2xl font-bold mb-2">
-                        {item.brand?.toUpperCase()}
-                      </h3>
-                      <div className="w-12 h-1 bg-white mx-auto mb-2" />
-                      <p className="text-sm">{item.title}</p>
-                    </div>
-                  </div>
+                  ></div>
 
                   <CardContent className="p-6 flex flex-col flex-grow">
                     <h3 className="text-xl font-bold mb-1 text-foreground">
