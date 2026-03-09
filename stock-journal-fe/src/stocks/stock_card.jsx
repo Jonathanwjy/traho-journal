@@ -57,10 +57,6 @@ export default function StockCard({ stock, onDelete, onDetail }) {
     };
   };
 
-  const getStatusVariant = (status) => {
-    return status === "open" ? "default" : "secondary";
-  };
-
   const actionStyle = getActionStyle(stock.action);
 
   const handleCardClick = () => {
@@ -68,7 +64,7 @@ export default function StockCard({ stock, onDelete, onDetail }) {
   };
 
   return (
-    <Card className="hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 bg-card border-border cursor-pointer group">
+    <Card className="hover:shadow-2xl hover:scale-[1.02] shadow-primary shadow-2xl transition-all duration-300 bg-card border-border cursor-pointer group">
       <div onClick={handleCardClick}>
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">

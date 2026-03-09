@@ -166,23 +166,29 @@ export default function Dashboard() {
         </div>
 
         {openStocks.length > 0 && (
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-7 mb-5">
+          <div className="mt-8 grid grid-cols-3 gap-2 md:gap-7 mb-5">
             <div className="p-4 rounded-lg bg-card border border-border">
-              <p className="text-sm text-background">Total Saham</p>
-              <p className="text-2xl font-bold mt-1 text-background">
+              <p className="text-sm md:text-2xl  text-background">
+                Total Saham
+              </p>
+              <p className="text-sm md:text-2xl font-bold mt-1 text-background">
                 {openStocks.length}
               </p>
             </div>
             <div className="p-4 rounded-lg bg-card border border-border">
-              <p className="text-sm text-background">Long | Short</p>
-              <p className="text-2xl font-bold mt-1 text-background">
+              <p className="text-sm md:text-2xl text-background">
+                Long | Short
+              </p>
+              <p className="text-sm md:text-2xl font-bold mt-1 text-background">
                 {openStocks.filter((s) => s.action === "long").length} |{" "}
                 {openStocks.filter((s) => s.action === "short").length}
               </p>
             </div>
             <div className="p-4 rounded-lg bg-card border border-border">
-              <p className="text-sm text-background">Total Balance</p>
-              <p className="text-2xl font-bold mt-1 text-background">
+              <p className="text-sm md:text-2xl text-background">
+                Total Balance
+              </p>
+              <p className="text-sm md:text-2xl font-bold mt-1 text-background">
                 {new Intl.NumberFormat("id-ID", {
                   style: "currency",
                   currency: "IDR",

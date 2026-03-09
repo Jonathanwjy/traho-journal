@@ -133,7 +133,7 @@ export default function StatIndex() {
                       Saham
                     </TableHead>
                     <TableHead className="text-primary font-bold px-3">
-                      Tanggal
+                      Tanggal Jual
                     </TableHead>
                     <TableHead className="text-right text-primary font-bold px-3">
                       Profit/Loss
@@ -213,7 +213,7 @@ export default function StatIndex() {
                               ) : (
                                 <TrendingDown size={14} />
                               )}
-                              {item.percentage_gain}%
+                              {Number(item.percentage_gain).toFixed(2)}%
                             </div>
                           </TableCell>
                         </TableRow>
