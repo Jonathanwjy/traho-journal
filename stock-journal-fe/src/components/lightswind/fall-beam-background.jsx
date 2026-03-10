@@ -1,9 +1,5 @@
 import React, { useEffect, useRef } from "react";
 
-/**
- * FallBeamBackground - Versi JSX
- * Pastikan parent container memiliki 'position: relative'
- */
 const FallBeamBackground = ({
   className = "",
   lineCount = 20,
@@ -104,7 +100,6 @@ const FallBeamBackground = ({
             <h1 className="text-4xl sm:text-6xl lg:text-8xl font-bold text-white tracking-tighter">
               {displayText}
             </h1>
-            {/* Gradasi halus di bagian bawah teks */}
             <div
               className="absolute inset-0 z-30 pointer-events-none"
               style={{
