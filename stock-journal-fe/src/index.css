@@ -1,8 +1,12 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin 'lightswind/plugin';
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+html {
+  scroll-behavior: smooth;
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -227,6 +231,7 @@
 
 body {
   letter-spacing: var(--tracking-normal);
+  scroll-behavior: smooth;
 }
 
 .dark {

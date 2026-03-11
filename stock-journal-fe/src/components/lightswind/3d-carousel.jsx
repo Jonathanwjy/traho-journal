@@ -149,7 +149,7 @@ const ThreeDCarousel = ({
           </div>
 
           {!isMobile && (
-            <div className="absolute inset-0 flex items-center justify-between px-4 z-30 pointer-events-none">
+            <div className="absolute inset-0 flex bg-transparent items-center justify-between px-4 z-30 pointer-events-none">
               <Button
                 variant="outline"
                 size="icon"
