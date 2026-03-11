@@ -17,145 +17,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { heroImages, features, benefits, howItWorks } from "./welcome_data";
+import { Link } from "react-router-dom";
 
 const navItems = [
-  { key: "home", label: "Home", link: "#home" },
+  { key: "home", label: "Home", link: "#hero" },
   { key: "about", label: "About", link: "#about" },
   { key: "features", label: "Features", link: "#features" },
   { key: "benefits", label: "Benefits", link: "#benefits" },
   { key: "howItWorks", label: "How It Works", link: "#howItWorks" },
-];
-
-const heroImages = [
-  {
-    id: 1,
-    url: "/images/hero_images/hero-1.png",
-  },
-  {
-    id: 2,
-    url: "/images/hero_images/hero-2.png",
-  },
-  {
-    id: 3,
-    url: "/images/hero_images/hero-3.png",
-  },
-];
-
-const features = [
-  {
-    id: 1,
-    title: "Portofolio monitoring",
-    brand: "Realtime Portofolio Monitoring",
-    description:
-      "Lihat saham apa saja yang sedang kamu pengang dan informasi terkait seperti average harga, ",
-    imageUrl: "/images//features/porto.png",
-    link: "/projects/firecat",
-  },
-  {
-    id: 2,
-    title: "Stock Manage",
-    brand: "Manage Your Stock Easily",
-    description:
-      "Add a new position easily with value calculation or edit the stocks data and close stock position",
-    imageUrl: "/images/features/add.png",
-    link: "/projects/firecat",
-  },
-  {
-    id: 3,
-    title: "Notes for adaption",
-    brand: "Add notes to your stock",
-    description:
-      "Tambahkan catatan analisa terbaru dengan tanggal untuk memudahkan pembacaan analisa mengikuti perkembangan makro ekonomi yang terus berubah dan teknikal",
-    imageUrl: "/images/features/adapt.png",
-    link: "/projects/firecat",
-  },
-  {
-    id: 4,
-    title: "Chart Visualitazion",
-    brand: "Track your trading performance",
-    description:
-      "Tampilan grafik yang memudahkan anda memantau progress trading anda",
-    imageUrl: "/images/features/visual.png",
-    link: "/projects/firecat",
-  },
-  {
-    id: 5,
-    title: "Trade History",
-    brand: "Look up to past",
-    description:
-      "Lihat trade terdahulu anda dengan data yang ada serta catatannya untuk mengevaluasi trading plan anda",
-    imageUrl: "/images/features/review.png",
-    link: "/projects/firecat",
-  },
-];
-
-const benefits = [
-  {
-    id: 1,
-    title: "Membuat Keputusan Berdasarkan Informasi yang Lengkap",
-    description:
-      "Analisa secara real-time dan grafik yang jelas menggambarkan kondisi saham kamu. Kamu melihat gambaran secara keselurhan sebelum beraksi",
-  },
-  {
-    id: 2,
-    title: "Tidak Pernah Ketinggalan atas Analisa Saham",
-    description:
-      "Setiap alasan entry, catatan, update diatur sedemikian rupa dan mudah ditemukan. Trading terdahulumu menjadi sebuah sumber pembelajaran",
-  },
-  {
-    id: 3,
-    title: "Stop Buka Tutup SpreadSheet",
-    description:
-      "Kalkulasi secara otomatis dan record yang terorganisir artinya lebih sedikit waktu untuk mengatur data dan lebih banyak waktu untuk memikirkan strategi trading.",
-  },
-];
-
-const howItWorks = [
-  {
-    title: "Buat akun",
-    subtitle: "Buat akun dengan email untuk memulai perjalanan trading mu",
-    badge: "Step 1",
-    gradient: "linear-gradient(135deg, #f87171, #991b1b)",
-  },
-  {
-    title: "Tambahkan posisi",
-    subtitle: "Tambah posisi sahammu dengan catatan analisa yang kamu punya",
-    badge: "Step 2",
-    gradient: "linear-gradient(135deg, #ef4444, #1e3a8a, #f59e0b)",
-  },
-  {
-    title: "Buat analisa",
-    subtitle:
-      "Tambahkan analisa terbaru ke saham kamu dengan tanggal untuk mengikuti perkembangan makro maupun teknikal",
-    badge: "Step 3",
-    gradient: "linear-gradient(135deg, #10b981, #064e3b)",
-  },
-  {
-    title: "Melihat analisa",
-    subtitle:
-      "Melihat analisamu pada suatu saham untuk membantu menentukan keputusan tradingmu",
-    badge: "Step 4",
-    gradient: "linear-gradient(135deg, #ef4444, #1e3a8a, #f59e0b)",
-  },
-  {
-    title: "Jual saham",
-    subtitle:
-      "Jual saham secara keseluruhan atau sebagian dengan catatan analisa mu",
-    badge: "Step 5",
-    gradient: "linear-gradient(135deg, #10b981, #064e3b)",
-  },
-  {
-    title: "History Trading",
-    subtitle:
-      "Lihat trading lama mu beserta dengan analisa yang ada sebagai pembelajaran",
-    badge: "Step 6",
-  },
-  {
-    title: "Grafik statistik",
-    subtitle:
-      "Tampilan grafik pertumbuhan balance dan statistik trading ditampilkan secara menarik untuk menganalisa performa trading",
-    badge: "Step 7",
-  },
 ];
 
 export default function Welcome() {
@@ -201,7 +71,7 @@ export default function Welcome() {
       <nav className="fixed top-0 w-full bg-background/60 z-50 border-b">
         <div className="container mx-auto flex h-16 items-center justify-between px-12">
           <div className="font-bold text-xl tracking-tight uppercase">
-            My<span className="text-primary">App</span>
+            Traho<span className="text-primary">Journal</span>
           </div>
 
           {/* Navigation Items */}
@@ -222,10 +92,12 @@ export default function Welcome() {
 
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm">
-              Login
+              <Link to="/login">Login</Link>
             </Button>
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button size="sm">Get Started</Button>
+              <Button size="sm">
+                <Link to="/register">Register</Link>
+              </Button>
             </motion.div>
           </div>
         </div>
